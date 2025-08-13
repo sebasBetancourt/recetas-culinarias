@@ -1,14 +1,12 @@
 // imports
 import dotenv from "dotenv";
 import express from "express";
-import pokemonRouter from "./routers/usuariosRouter.js";
+import usuariosRouter from "./routers/usuariosRouter.js";
 import { connect } from "./db/config.js";
+import { ObjectId } from "bson";
 
 //configs
 dotenv.config();
-// PORT=5500
-// DB_URI=mongodb://localhost:27017/
-// DB_NAME=pokemonDB
 
 const port = process.env.PORT || 3000;
 const app = express();

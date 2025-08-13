@@ -5,6 +5,10 @@ API REST para una Plataforma de Recetas Culinarias donde los usuarios puedan r
 
 ## Endpoints
 ### 1. Usuarios 
+1. Listar todos los Usuarios registrados
+    - Metodo: GET
+    ```http://localhost:5500/usuarios/list ```
+
 ### 2. Recetas 
 ### 3. Ingredientes 
 

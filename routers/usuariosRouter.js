@@ -4,10 +4,10 @@ import { getDB } from "../db/config.js";
 
 const router = Router();
 
-router.get("/getall", async function (req, res) {
+router.get("/list", async function (req, res) {
   try {
-    const pokemones = await getDB().collection("pokemones").find().toArray();
-    res.status(200).json(pokemones);
+    const usuarios = await getDB().collection("usuarios").find().toArray();
+    res.status(200).json(usuarios);
   } catch (error) {
     res.error(500).json({ error: "Internal server error" });
   }
@@ -40,7 +40,7 @@ router.post("/create", async function (req, res) {
       habilidad,
       debilitado,
     };
-    await getDB().collection("pokemones").insertOne(pokemon);
+    await getDB().collection("usuarios").insertOne(pokemon);
     res.status(201).json({ message: "Pokemon created!!" });
   } catch (error) {
     res.error(500).json({ error: "Internal server error" });
