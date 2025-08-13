@@ -1,7 +1,7 @@
 // imports
 import dotenv from "dotenv";
 import express from "express";
-import pokemonRouter from "./routers/pokemonRouter.js";
+import pokemonRouter from "./routers/usuariosRouter.js";
 import { connect } from "./db/config.js";
 
 //configs
@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json()); //Middleware de interpretacion de JSON
 
 // Rutas
-app.use("/pokemon", pokemonRouter);
+app.use("/usuarios", usuariosRouter);
 
 //endpoints
 app.get("/api", function (req, res) {

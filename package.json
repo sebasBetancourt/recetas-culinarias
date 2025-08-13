@@ -1,0 +1,26 @@
+{
+  "name": "recetas-culinarias",
+  "version": "1.0.0",
+  "description": "API REST para una Plataforma de Recetas Culinarias donde los usuarios puedan registrarse, agregar sus recetas y detallar sus ingredientes, así como buscar recetas por ingrediente y consultar las recetas creadas por un usuario en particular.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebasBetancourt/recetas-culinarias.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/sebasBetancourt/recetas-culinarias/issues"
+  },
+  "homepage": "https://github.com/sebasBetancourt/recetas-culinarias#readme",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "mongodb": "^6.18.0"
+  }
+}
