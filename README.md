@@ -23,6 +23,11 @@ API REST para una Plataforma de Recetas Culinarias donde los usuarios puedan r
     - Metodo PATCH
 
         ``` http://localhost:5500/usuarios/update/:id ```
+5. Actualizar recetas de un usuario.
+    
+    - Metodo PATCH
+
+        ``` http://localhost:5500/usuarios/recetas/:id ```
 5. Eliminar un usuario y todas sus recetas asociadas.
     
     - Metodo DELETE

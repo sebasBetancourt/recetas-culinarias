@@ -99,9 +99,42 @@ try {
 
 
 
+// Actualizar un Usuario
+// PATCH /usuarios/update/:id
+router.patch("/recetas/:id", async function (req, res) { 
+  try {
+      const idUsuario = parseInt(req.params.id);
+      const usuario = await getDB()
+        .collection("usuarios")
+        .findOne({ id: idUsuario });
+      if (!usuario) {
+        res.status(404).json({ error: "Usuario doesn't exists!" });
+      }
+      const recetas = req.body;
+      if (!id || !nombre || !email) {
+        res.status(400).json({ error: "Invalid input!" });
+      }
+      res.status(400).json({ error: "Invalid input!" });
+      const usuarioNew = await getDB().collection("usuarios").updateOne(
+        { id: idUsuario },
+        { $set: {
+          recetas: recetas
+        } }
+      
+      );
+      
+      res.status(201).json({ message: "User Update!!" });
+  
+  
+      } catch (er) {
+        res.status(500).json({ error: "Internal server error" });
+      }
+  });
+
+
 // Eliminar un Usuario y sus recetas Asociadas
 // DELETE /usuarios/update/:id
-router.delete("/del/:id", usuarioDTO, validatorFieldsDTO, async function (req, res) { 
+router.delete("/del/:id", async function (req, res) { 
   try {
       const idUsuario = parseInt(req.params.id);
       const usuario = await getDB()
