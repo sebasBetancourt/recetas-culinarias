@@ -2,6 +2,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import usuariosRouter from "./routers/usuariosRouter.js";
+import recetasRouter from "./routers/recetasRouter.js";
 import { connect } from "./db/config.js";
 import { ObjectId } from "bson";
 
@@ -15,7 +16,7 @@ app.use(express.json()); //Middleware de interpretacion de JSON
 
 // Rutas
 app.use("/usuarios", usuariosRouter);
-
+app.use("/recetas", recetasRouter);
 //endpoints
 app.get("/api", function (req, res) {
   res.send("Api OK!");
