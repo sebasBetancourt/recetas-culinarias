@@ -1,4 +1,3 @@
-// imports
 import { Router } from "express";
 import { getDB } from "../db/config.js";
 import { ObjectId } from "bson";
@@ -99,41 +98,32 @@ try {
 
 
 
-// Actualizar un Usuario
-// PATCH /usuarios/update/:id
-router.patch("/recetas/:id", async function (req, res) { 
+// Actualizar recetas de un Usuario
+// PATCH /usuarios/recetas/:id
+router.patch("/recetas/:id", async function (req, res) {
   try {
-      const idUsuario = parseInt(req.params.id);
-      const usuario = await getDB()
-        .collection("usuarios")
-        .findOne({ id: idUsuario });
-      if (!usuario) {
-        res.status(404).json({ error: "Usuario doesn't exists!" });
-      }
-      const recetas = req.body;
-      if (!id || !nombre || !email) {
-        res.status(400).json({ error: "Invalid input!" });
-      }
-      res.status(400).json({ error: "Invalid input!" });
-      const usuarioNew = await getDB().collection("usuarios").updateOne(
-        { id: idUsuario },
-        { $set: {
-          recetas: recetas
-        } }
-      
-      );
-      
-      res.status(201).json({ message: "User Update!!" });
-  
-  
-      } catch (er) {
-        res.status(500).json({ error: "Internal server error" });
-      }
-  });
+    const idUsuario = parseInt(req.params.id);
+    const usuario = await getDB().collection("usuarios").findOne({ id: idUsuario });
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuario doesn't exists!" });
+    }
+    const { recetas } = req.body;
+    if (!Array.isArray(recetas)) {
+      return res.status(400).json({ error: "Invalid input! Recetas must be an array." });
+    }
+    await getDB().collection("usuarios").updateOne(
+      { id: idUsuario },
+      { $set: { recetas } }
+    );
+    res.status(200).json({ message: "User recipes updated!" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 
 // Eliminar un Usuario y sus recetas Asociadas
-// DELETE /usuarios/update/:id
+// DELETE /usuarios/del/:id
 router.delete("/del/:id", async function (req, res) { 
   try {
       const idUsuario = parseInt(req.params.id);
@@ -141,15 +131,15 @@ router.delete("/del/:id", async function (req, res) {
         .collection("usuarios")
         .findOne({ id: idUsuario });
       if (!usuario) {
-        res.status(404).json({ error: "Usuario doesn't exists!" });
+        return res.status(404).json({ error: "Usuario doesn't exists!" });
       }
-      const usuarioDelete = await getDB().collection("usuarios").deleteOne(
-        { id: idUsuario });
+      await getDB().collection("recetas").deleteMany({ _id: { $in: usuario.recetas } });
+      await getDB().collection("usuarios").deleteOne({ id: idUsuario });
       
-      res.status(201).json({ message: "User Delete!!" });
+      res.status(200).json({ message: "User and associated recipes deleted!" });
   
   
-      } catch (er) {
+      } catch (error) {
         res.status(500).json({ error: "Internal server error" });
       }
   });
