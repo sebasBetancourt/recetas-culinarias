@@ -4,6 +4,7 @@ import usuariosRouter from "./routers/usuariosRouter.js";
 import recetasRouter from "./routers/recetasRouter.js";
 import { connect } from "./db/config.js";
 import { ObjectId } from "mongodb";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json());
-
+app.use(cookieParser());
 // Rutas
 app.use("/usuarios", usuariosRouter);
 app.use("/recetas", recetasRouter);

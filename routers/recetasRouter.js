@@ -17,6 +17,60 @@ router.get("/list", async (req, res) => {
   }
 });
 
+
+
+// Recetas Favoritas
+router.get('/favoritos', (req, res) => {
+  // Recuperar recetas favoritas de las cookies, por defecto un arreglo vacío si no está configurado
+  const favoritos = req.cookies.favoritos ? JSON.parse(req.cookies.favoritos) : [];
+  res.json({
+    mensaje: 'Recetas favoritas',
+    favoritos: favoritos
+  });
+});
+
+// Endpoint para agregar una receta favorita
+router.post('/favoritos', (req, res) => {
+  const nuevaReceta = req.body.receta; // Ejemplo: { "receta": "Pizza Margherita" }
+  if (!nuevaReceta) {
+    return res.status(400).json({ mensaje: 'Se requiere una receta' });
+  }
+
+  // Obtener recetas favoritas actuales
+  let favoritos = req.cookies.favoritos ? JSON.parse(req.cookies.favoritos) : [];
+
+  // Verificar si la receta ya está en favoritos
+  if (!favoritos.includes(nuevaReceta)) {
+    favoritos.push(nuevaReceta);
+    // Guardar la lista actualizada en la cookie
+    res.cookie('favoritos', JSON.stringify(favoritos), { maxAge: 30 * 24 * 60 * 60 * 1000 }); // Cookie válida por 30 días
+    res.json({ mensaje: 'Receta agregada a favoritos', favoritos });
+  } else {
+    res.json({ mensaje: 'La receta ya está en favoritos', favoritos });
+  }
+});
+
+// Endpoint para eliminar una receta favorita
+router.delete('/favoritos', (req, res) => {
+  const recetaAEliminar = req.body.receta; // Ejemplo: { "receta": "Pizza Margherita" }
+  if (!recetaAEliminar) {
+    return res.status(400).json({ mensaje: 'Se requiere una receta' });
+  }
+
+  // Obtener recetas favoritas actuales
+  let favoritos = req.cookies.favoritos ? JSON.parse(req.cookies.favoritos) : [];
+
+  // Filtrar la receta a eliminar
+  favoritos = favoritos.filter(receta => receta !== recetaAEliminar);
+
+  // Actualizar la cookie
+  res.cookie('favoritos', JSON.stringify(favoritos), { maxAge: 30 * 24 * 60 * 60 * 1000 });
+  res.json({ mensaje: 'Receta eliminada de favoritos', favoritos });
+});
+
+
+
+
 // Obtener una receta por ID con ingredientes
 // GET /recetas/get/:id
 router.get("/get/:id", async (req, res) => {
